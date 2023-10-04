@@ -8,13 +8,20 @@ use App\Http\Resources\TaskCollection;
 use App\Http\Resources\TaskResource;
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class TaskController extends Controller
 {
     // This method returns a collection of tasks 
     public function index(Request $request)
     {
-        return new TaskCollection(Task::all());
+        // Adding pagination, filters and sorting to the query
+        $tasks = QueryBuilder::for(Task::class)
+            ->allowedFilters('is_done')
+            ->defaultSort('-created_at')
+            ->allowedSorts('title', 'is_done', 'created_at')
+            ->paginate();
+        return new TaskCollection($tasks);
     }
 
     // This method returns a single task
