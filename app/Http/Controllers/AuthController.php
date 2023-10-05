@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    //
+    // This method login a user and authenticate them with Sanctum
     public function login(Request $request)
     {
         // Validate the request
@@ -28,5 +28,23 @@ class AuthController extends Controller
             'access_token' => $user->createToken('auth_token')->plainTextToken,
             'token_type' => 'Bearer',
         ]);
+    }
+
+    // This method register a new user
+    public function register(Request $request)
+    {
+        // Validate the request
+        $validate = $request->validate([
+            'name' => 'required|max:255',
+            'email' => 'required|email|max:255|unique:users,email',
+            'password' => 'required|confirmed|min:6',
+        ]);
+        // Create the user and return a token
+        $user = User::create($validate);
+        return response()->json([
+            'data' => $user,
+            'access_token' => $user->createToken('auth_token')->plainTextToken,
+            'token_type' => 'Bearer',
+        ], 201);
     }
 }
