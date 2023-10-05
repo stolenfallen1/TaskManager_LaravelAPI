@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TaskController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -14,18 +15,14 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+// Authentication routes
+Route::post('login', [AuthController::class, 'login']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('tasks', [TaskController::class, 'index']);
-
-/* 
-    CRUD routes
-    This line registers a resource controller for the tasks endpoint, with only the specified actions
-    Route::apiResource('tasks', TaskController::class)->only(['index', 'show', 'store', 'update', 'destroy']);
-    Both works the same
-    This line registers a resource controller for the tasks endpoint, with all the default actions
-*/
-Route::apiResource('tasks', TaskController::class);
+// Wrap the task routes in the auth middleware group so that only authenticated users can access them
+Route::middleware('auth:sanctum')->group(function () {
+    Route::apiResource('tasks', TaskController::class);
+});
