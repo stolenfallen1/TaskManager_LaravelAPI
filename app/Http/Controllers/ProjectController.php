@@ -14,6 +14,10 @@ use Spatie\QueryBuilder\QueryBuilder;
 class ProjectController extends Controller
 {
     //
+    public function __construct()
+    {
+        $this->authorizeResource(Project::class, 'project');
+    }
     // Index all projects
     public function index(Request $request)
     {
