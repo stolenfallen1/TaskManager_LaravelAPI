@@ -41,11 +41,18 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'password' => 'hashed',
+        'password' => 'hashed', // hash the password field
     ];
 
+    // Define a one to many relationship with Task model
     public function tasks(): HasMany
     {
         return $this->hasMany(Task::class, 'creator_id');
+    }
+
+    // Define a one to many relationship with Project model
+    public function projects(): HasMany
+    {
+        return $this->hasMany(Project::class, 'creator_id');
     }
 }
