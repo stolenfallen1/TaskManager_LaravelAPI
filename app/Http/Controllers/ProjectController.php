@@ -29,7 +29,9 @@ class ProjectController extends Controller
         // Validate the request
         $validate = $request->validated();
         // Create the project
-        $project = Auth::user()->projects()->create($validate);
+        $project = Auth::user()->projects()
+            ->load('tasks')
+            ->load('members');
         return new ProjectResource($project);
     }
 
