@@ -13,6 +13,11 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class TaskController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Task::class, 'task');
+    }
+
     // This method returns a collection of tasks 
     public function index(Request $request)
     {

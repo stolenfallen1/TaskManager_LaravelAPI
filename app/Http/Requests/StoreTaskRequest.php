@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class StoreTaskRequest extends FormRequest
 {
@@ -24,6 +26,10 @@ class StoreTaskRequest extends FormRequest
         return [
             //
             'title' => 'required|string|max:255',
+            'project_id' => [
+                'nullable',
+                Rule::in(Auth::user()->memberships->pluck('id')),
+            ]
         ];
     }
 }

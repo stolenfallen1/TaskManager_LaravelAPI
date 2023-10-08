@@ -40,8 +40,8 @@ class Project extends Model
     // Add global scope to only show projects created by the authenticated user
     protected static function booted(): void
     {
-        static::addGlobalScope('creator', function (Builder $builder) {
-            $builder->where('creator_id', Auth::id());
+        static::addGlobalScope('member', function (Builder $builder) {
+            $builder->whereRelation('members', 'user_id', Auth::id());
         });
     }
 }
