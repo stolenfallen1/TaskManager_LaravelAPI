@@ -23,6 +23,12 @@ class ProjectController extends Controller
         return new ProjectResource($project);
     }
 
+    // Show a project
+    public function show(Request $request, Project $project)
+    {
+        return new ProjectResource($project);
+    }
+
     // Update a project
     public function update(UpdateProjectRequest $request, Project $project)
     {
