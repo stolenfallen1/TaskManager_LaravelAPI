@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TaskController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -25,5 +26,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 // Wrap the task routes in the auth middleware group so that only authenticated users can access them
 Route::middleware('auth:sanctum')->group(function () {
+    // Tasks routes
     Route::apiResource('tasks', TaskController::class);
+    // Projects routes
+    Route::apiResource('projects', ProjectController::class);
 });

@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -41,11 +42,24 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'password' => 'hashed',
+        'password' => 'hashed', // hash the password field
     ];
 
+    // Define a one to many relationship with Task model
     public function tasks(): HasMany
     {
         return $this->hasMany(Task::class, 'creator_id');
+    }
+
+    // Define a one to many relationship with Project model
+    public function projects(): HasMany
+    {
+        return $this->hasMany(Project::class, 'creator_id');
+    }
+
+    // Define many to many relationship with Member model
+    public function memberships(): BelongsToMany
+    {
+        return $this->belongsToMany(Project::class, Member::class);
     }
 }
