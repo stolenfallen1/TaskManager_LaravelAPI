@@ -47,4 +47,11 @@ class ProjectController extends Controller
         $project->update($validate);
         return new ProjectResource($project);
     }
+
+    // Delete a project
+    public function destroy(Request $request, Project $project)
+    {
+        $project->delete();
+        return response()->noContent();
+    }
 }
